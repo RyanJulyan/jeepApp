@@ -7,7 +7,7 @@
 	  var user_submission_num = 1;
 	  var cur_user_id = 0;
 	  var data_pri = 1;
-	  var url_extention = "include/";
+	  var url_extention = "192.168.1.114/Jeep App Website/include/";
 	  var adminID = 0;
 	  var loggedAdminName = null;
 	  var loggedAdminPass= null;
