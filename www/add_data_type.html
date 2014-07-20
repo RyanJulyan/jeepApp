@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" href="themes/jeep_app.min.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.3.min.css" />
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body onload="initDB();">
+<div data-theme="d" data-role="page">
+	<div data-role="header" data-theme="d">
+		<a href="project_options.html" data-icon="carat-l" class="ui-btn-left" data-transition="flip" data-direction="reverse">Back</a>
+		<h1>
+			Jeep
+		</h1>
+	</div>
+	
+	<input type="hidden" id='lat' value="lat"/>
+	<input type="hidden" id='long' value="long"/>
+	
+	<div class="infoBox" data-role="content" data-theme="d">
+		<h2 class="headingStyle">Add New Input Type</h2>
+		<form type="post" onsubmit="addDataType(); return false;">
+		  <input type="text" id="data_type" name="data_type" placeholder="Input Type" />
+		  <input type="submit" value="Add Input Type" data-icon="check" data-iconpos="right" />
+		</form>
+	</div>
+	
+	<script src="js/dbLinkedFile.js"></script>
+</div>
+</body>
+</html>

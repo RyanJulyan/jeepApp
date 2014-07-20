@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" href="themes/jeep_app.min.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.3.min.css" />
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.mobile-1.4.3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body onload="viewData();">
+<div data-theme="d" data-role="page">
+	<div data-role="header" data-theme="d">
+		<a href="select_project.html" data-icon="carat-l" class="ui-btn-left" data-transition="slidedown" data-direction="reverse">Back</a>
+		<h1>
+			Jeep
+		</h1>
+	</div>
+	<input type="hidden" id='lat' value="lat"/>
+	<input type="hidden" id='long' value="long"/>
+	<input type="hidden" id='projID' value="0"/>
+
+	<div class="infoBox" data-role="content" data-theme="d">
+		Total Submissions: <span id="totalSubs">200 People</span><br>
+		<button data-role="button" data-theme="d"  data-mini="true" data-icon="arrow-d" data-iconpos="right" data-inline="true" >Download CSV</button><br>
+		<div data-filter="true" data-filter-placeholder="Search for Project">
+			<table  id='render_data'>
+			</table>
+		</div>
+	</div>
+
+	<script src="js/dbLinkedFile.js"></script>
+</div>
+</body>
+</html>
