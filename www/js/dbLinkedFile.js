@@ -1459,6 +1459,7 @@
 			async: false,
 			dataType:"jsonp",
 			url: url_extention+"get_admin.php",
+			contentType: "application/json; charset=utf-8",
 			success: function(data){
 				console.log(data);
 				admin = data;
