@@ -362,8 +362,6 @@
 		  var cur_name = loggedAdminName ;
 		  var cur_password = loggedAdminPass;
 		  
-		  alert(cur_name);
-		  
           tx.executeSql("SELECT id FROM `admin` WHERE user_name = ? AND password = ?", [cur_name, cur_password], renderFunc,
               jeep.webdb.onError);
         });
