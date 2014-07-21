@@ -1507,7 +1507,12 @@
 		$.ajax({
 			async: false,
 			dataType:"json",
+			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_data_type.php",
+			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				data_type = data;
@@ -1544,7 +1549,12 @@
 		$.ajax({
 			async: false,
 			dataType:"json",
+			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_input_info.php",
+			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				input_info = data;
@@ -1581,7 +1591,12 @@
 		$.ajax({
 			async: false,
 			dataType:"json",
+			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_project.php",
+			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				project = data;
@@ -1618,7 +1633,12 @@
 		$.ajax({
 			async: false,
 			dataType:"json",
+			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_project_data_capture.php",
+			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				project_data_capture = data;
@@ -1655,7 +1675,12 @@
 		$.ajax({
 			async: false,
 			dataType:"json",
+			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_proj_input.php",
+			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				proj_input = data;
@@ -1692,7 +1717,12 @@
 		$.ajax({
 			async: false,
 			dataType:"json",
+			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_super_user.php",
+			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				super_user = data;
@@ -1729,7 +1759,12 @@
 		$.ajax({
 			async: false,
 			dataType:"json",
+			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_user.php",
+			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				user = data;
