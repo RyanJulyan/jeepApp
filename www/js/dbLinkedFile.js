@@ -7,7 +7,7 @@
 	  var user_submission_num = 1;
 	  var cur_user_id = 0;
 	  var data_pri = 1;
-	  var url_extention = "192.168.1.114/Jeep%20App%20Website/include/";
+	  var url_extention = "http://192.168.1.114/Jeep%20App%20Website/include/";
 	  var adminID = 0;
 	  var loggedAdminName = null;
 	  var loggedAdminPass= null;
@@ -1457,7 +1457,7 @@
 		var admin;
 		$.ajax({
 			async: false,
-			dataType:"json",
+			dataType:"jsonp",
 			url: url_extention+"get_admin.php",
 			success: function(data){
 				console.log(data);
