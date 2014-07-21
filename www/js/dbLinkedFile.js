@@ -1457,10 +1457,13 @@
 		var admin;
 		$.ajax({
 			async: false,
-			dataType:"jsonp",
+			dataType:"json",
 			type: "GET",
+			crossDomain: true,
 			url: url_extention+"get_admin.php",
 			contentType: "application/json; charset=utf-8",
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
 			success: function(data){
 				console.log(data);
 				admin = data;
