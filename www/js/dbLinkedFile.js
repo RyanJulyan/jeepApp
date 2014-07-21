@@ -1,4 +1,4 @@
-
+	  
       var jeep = {};
       jeep.webdb = {};
       jeep.webdb.db = null;
@@ -11,6 +11,12 @@
 	  var adminID = 0;
 	  var loggedAdminName = null;
 	  var loggedAdminPass= null;
+	  
+	  $( document ).bind( "mobileinit", function() {
+		  // Make your jQuery Mobile framework configuration changes here!
+	  	  $.support.cors = true;
+		  $.mobile.allowCrossDomainPages = true;
+	  });
 	 
       
       jeep.webdb.open = function() {

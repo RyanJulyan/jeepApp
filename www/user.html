@@ -12,8 +12,8 @@
 </head>
 
 <body onload='initDB();'>
-<div data-theme="d" data-role="page">
-	<div data-role="header" data-theme="d">
+<div data-role="page" data-theme="b">
+	<div data-role="header" data-theme="b">
 		<a href="user_select_project.html" data-icon="carat-l" class="ui-btn-left" data-transition="slide" data-direction="reverse">Back</a>
 		<h1>
 			Jeep
@@ -23,12 +23,12 @@
 	<input type="hidden" id='long' value="long"/>
 	<input type="hidden" id='projID' value="1"/>
 
-	<div class="infoBox" data-role="content" data-theme="d">
+	<div class="infoBox" data-role="main" data-theme="b">
 		<img src="projects/1/warrior5.png" />
 		<h2 class="headingStyle">User</h2>
 		<form type="post" onsubmit="addUser(); return false;">
-			<input type="text" data-theme="d" data-role="input" id="user" name="user" placeholder="User Name" />
-			<button data-role="button" data-theme="d"  data-mini="true" data-icon="lock" data-iconpos="right" >Start</button>
+			<input type="text" data-theme="b" data-role="input" id="user" name="user" placeholder="User Name" />
+			<button data-role="button" data-theme="b"  data-mini="true" data-icon="lock" data-iconpos="right" >Start</button>
 		</form>
 	</div>
 
