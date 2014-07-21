@@ -10,8 +10,8 @@
 </head>
 
 <body onload="initDB();">
-<div data-role="page">
-	<div data-role="header">
+<div data-role="page" data-theme="b">
+	<div data-role="header" data-theme="b">
 		<h1>
 			Jeep
 		</h1>
@@ -19,10 +19,10 @@
 	<input type="hidden" id='lat' value="lat"/>
 	<input type="hidden" id='long' value="long"/>
 
-	<div class="infoBox" data-role="main">
+	<div class="infoBox" data-role="main" data-theme="b">
 		<h2 class="headingStyle">Choose Action</h2>
-		<button class="btnBigger" data-role="button" data-icon="carat-r" data-iconpos="right" onclick="goUserChooseProj();"> Choose Project To Capture Data</button>
-		<button class="btnBigger" data-role="button" data-icon="carat-r" data-iconpos="right" onclick="goAdmin();">Admin</button>
+		<button class="btnBigger" data-role="button" data-theme="b" data-icon="carat-r" data-iconpos="right" onclick="goUserChooseProj();"> Choose Project To Capture Data</button>
+		<button class="btnBigger" data-role="button" data-theme="b" data-icon="carat-r" data-iconpos="right" onclick="goAdmin();">Admin</button>
 	</div>
 
 	<script src="js/dbLinkedFile.js"></script>
