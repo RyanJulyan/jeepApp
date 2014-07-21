@@ -511,7 +511,7 @@
 
         }
 		rowOutput += '</fieldset><br/>';
-		$("#projectItems").html('').append(rowOutput + '<input type="hidden" id="curuserid" value="0"/><input type="hidden" id="userSubnum" value="1"/><button data-role="button" data-theme="d" data-mini="true" data-icon="check" data-iconpos="right" onclick="updateUserSubMission();">Save</button>').trigger('create'); 
+		$("#projectItems").html('').append(rowOutput + '<input type="hidden" id="curuserid" value="0"/><input type="hidden" id="userSubnum" value="1"/><button data-role="button" data-theme="b" data-mini="true" data-icon="check" data-iconpos="right" onclick="updateUserSubMission();">Save</button>').trigger('create'); 
       
 		
 	  }
@@ -635,14 +635,14 @@
       }
 	  
 	  function renderProjectsForUser(row) {
-        return '<button class="btnBigger" data-role="button" data-theme="d" data-icon="carat-r" data-iconpos="right" onclick="goUserProj('+row.id+');">View '+ row.name  +' Data </button>';
+        return '<button class="btnBigger" data-role="button" data-theme="b" data-icon="carat-r" data-iconpos="right" onclick="goUserProj('+row.id+');">View '+ row.name  +' Data </button>';
       }
 	  
 	  function renderProjectsForData(row) {
-        return '<button class="btnBigger" data-role="button" data-theme="d" data-icon="carat-r" data-iconpos="right" onclick="goViewProjData('+row.id+');">View '+ row.name  +' Data </button>';
+        return '<button class="btnBigger" data-role="button" data-theme="b" data-icon="carat-r" data-iconpos="right" onclick="goViewProjData('+row.id+');">View '+ row.name  +' Data </button>';
       }
 	  function renderProjectsUser(row) {
-        return '<button class="btnBigger" data-role="button" data-theme="d" data-icon="carat-r" data-iconpos="right" on>'+ row.name  +'</button>';
+        return '<button class="btnBigger" data-role="button" data-theme="b" data-icon="carat-r" data-iconpos="right" on>'+ row.name  +'</button>';
       }
 	  
 	  function renderProjectsSelec(row) {
@@ -674,18 +674,18 @@
 		}
 		else if(row.data_type == "checkbox"){
 			if(row.required = 1){
-				return "<input onchange='addProjectDataCapture(" + row.id  + ", GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' value='"+row.label+"' id='"+row.label+"_"+row.id+"' data-role='input' data-theme='d' required /><label for='"+row.label+"_"+row.id+"'>"+row.label+"</label>";
+				return "<input onchange='addProjectDataCapture(" + row.id  + ", GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' value='"+row.label+"' id='"+row.label+"_"+row.id+"' data-role='input' data-theme='b' required /><label for='"+row.label+"_"+row.id+"'>"+row.label+"</label>";
 			}
 			else{
-				return "<input onchange='addProjectDataCapture(" + row.id  + ", GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' value='"+row.label+"' id='"+row.label+"_"+row.id+"' data-role='input' data-theme='d' /><label for='"+row.label+"_"+row.id+"'>"+row.label+"</label>";
+				return "<input onchange='addProjectDataCapture(" + row.id  + ", GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' value='"+row.label+"' id='"+row.label+"_"+row.id+"' data-role='input' data-theme='b' /><label for='"+row.label+"_"+row.id+"'>"+row.label+"</label>";
 			}
 		}
 		else{
 			if(row.required = 1){
-				return "<input onchange='addProjectDataCapture(" + row.id  + ",  GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' placeholder='"+row.label+"' data-role='input' data-theme='d' required />";
+				return "<input onchange='addProjectDataCapture(" + row.id  + ",  GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' placeholder='"+row.label+"' data-role='input' data-theme='b' required />";
 			}
 			else{
-				return "<input onchange='addProjectDataCapture(" + row.id  + ",  GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' placeholder='"+row.label+"' data-role='input' data-theme='d' />";
+				return "<input onchange='addProjectDataCapture(" + row.id  + ",  GetUserId(), GetProjId(),this.value)' type='" + row.data_type  + "' name='"+row.input_name+"' placeholder='"+row.label+"' data-role='input' data-theme='b' />";
 			}
 		}
       }
