@@ -7,10 +7,17 @@
 	  var user_submission_num = 1;
 	  var cur_user_id = 0;
 	  var data_pri = 1;
-	  var url_extention = "http://jeep.mi-project.info/include/";
+	  
+	  // For Server
+	  //var url_extention = "http://jeep.mi-project.info/include/";
+	  
+	  //For Local
+	  var url_extention = "include/";
+	  
 	  var adminID = 0;
 	  var loggedAdminName = null;
 	  var loggedAdminPass= null;
+	  var counter = 0;
 	  
 	  $( document ).bind( "mobileinit", function() {
 		  // Make your jQuery Mobile framework configuration changes here!
@@ -639,7 +646,7 @@
       }
 	  
 	  function renderProjectsForUser(row) {
-        return '<button class="btnBigger" data-role="button" data-theme="b" data-icon="carat-r" data-iconpos="right" onclick="goUserProj('+row.id+');">View '+ row.name  +' Data </button>';
+        return '<button class="btnBigger" data-role="button" data-theme="b" data-icon="carat-r" data-iconpos="right" onclick="goUserProj('+row.id+');"> '+ row.name  +'</button>';
       }
 	  
 	  function renderProjectsForData(row) {
@@ -1454,6 +1461,7 @@
 		$(document).on("pageshow",function(){
 		  initDB();
 		  loadServAdmin();
+		  console.log("Go Admin Fired");
 		});
 	  }
 	  
@@ -1485,8 +1493,6 @@
 		
 		
 		$.each(admin, function(idx, obj) {
-			//alert(obj.id +", " + obj.super_user_id +", " + obj.user_name +", " + obj.user_name +", " + obj.password +", " + obj.active +", " + obj.email);
-			
 			jeep.webdb.db.transaction(function(tx){
 			tx.executeSql("INSERT INTO admin(id, super_user_id, user_name, password, active, email) VALUES (?, ?, ?, ?, ?, ?)",
 				[obj.id, obj.super_user_id, obj.user_name, obj.password , obj.active , obj.email],
@@ -1497,6 +1503,8 @@
          	});
 			
 		});
+		
+		
 		
 	  }
 	  
