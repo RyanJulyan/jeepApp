@@ -292,7 +292,6 @@
 		 db.transaction(function(tx){
 			
 			var date_time_in = new Date();
-			//project('id' INTEGER PRIMARY KEY ASC, 'admin_id' INTEGER, 'name' VARCHAR(255), 'big_logo' VARCHAR(255), 'small_logo' VARCHAR(255), 'project_logo' VARCHAR(255), 'background' VARCHAR(255), 'start_date' DATETIME, 'end_date' DATETIME, 'date_time_created' DATETIME)", []);
 			tx.executeSql("INSERT INTO project(admin_id, name, big_logo, small_logo, project_logo, background, start_date, end_date,date_time_created) VALUES (1, 'My Project', 'Big Logo', 'Small Logo', 'Project Logo', 'background', ?, ?, ?)",
 				[date_time_in,date_time_in,date_time_in],
 				jeep.webdb.onSuccess,
@@ -341,12 +340,14 @@
       
       jeep.webdb.onSuccess = function(tx, r) {
         // re-render the data.
-        jeep.webdb.getAllprojectItems(loadprojectItems);
+        /*
+		jeep.webdb.getAllprojectItems(loadprojectItems);
 		jeep.webdb.getAllDataTypes(loadAllDataTypes);
 		jeep.webdb.getAllProjects(loadAllProjects);
 		jeep.webdb.getAllProjects(loadAllProjectsForData);
 		jeep.webdb.getAllInputInfo(loadAllInputInfo);
 		jeep.webdb.getAllCapData(loadAllCapData);
+		*/
       }
 	  
 	  jeep.webdb.onChangeSuccess = function(tx, r) {
@@ -1250,6 +1251,7 @@
 		}
 		
 		alert("The Following Inputs have been added to "+ $("#project_select option:selected").html()+" \n " + inputsSelected);
+		
       }
 	  
 	  function addProject() {
@@ -1488,7 +1490,7 @@
 		jeep.webdb.open();
 		jeep.webdb.db.transaction(function(tx) {
 			tx.executeSql("DROP TABLE admin", []);
-			tx.executeSql("CREATE TABLE IF NOT EXISTS admin('id' INTEGER unique, 'super_user_id' INTEGER, 'user_name' VARCHAR(255), 'password' VARCHAR(255), 'active' INTEGER, 'email' VARCHAR(255))", []);
+			tx.executeSql("CREATE TABLE IF NOT EXISTS admin('id' INTEGER PRIMARY KEY ASC, 'super_user_id' INTEGER, 'user_name' VARCHAR(255), 'password' VARCHAR(255), 'active' INTEGER, 'email' VARCHAR(255))", []);
 		});
 		
 		
@@ -1503,8 +1505,6 @@
          	});
 			
 		});
-		
-		
 		
 	  }
 	  
@@ -1531,7 +1531,7 @@
 		jeep.webdb.open();
 		jeep.webdb.db.transaction(function(tx) {
 			tx.executeSql("DROP TABLE data_type", []);
-			tx.executeSql("CREATE TABLE IF NOT EXISTS data_type('id' INTEGER unique, 'data_type' VARCHAR(255))", []);
+			tx.executeSql("CREATE TABLE IF NOT EXISTS data_type('id' INTEGER PRIMARY KEY ASC, 'data_type' VARCHAR(255))", []);
 		});
 		
 		
@@ -1573,7 +1573,7 @@
 		jeep.webdb.open();
 		jeep.webdb.db.transaction(function(tx) {
 			tx.executeSql("DROP TABLE input_info", []);
-			tx.executeSql("CREATE TABLE IF NOT EXISTS input_info('id' INTEGER unique, 'data_type_id' INTEGER, 'label' VARCHAR(255), 'required' INTEGER, 'input_name' VARCHAR(255))", []);
+			tx.executeSql("CREATE TABLE IF NOT EXISTS input_info('id' INTEGER PRIMARY KEY ASC, 'data_type_id' INTEGER, 'label' VARCHAR(255), 'required' INTEGER, 'input_name' VARCHAR(255))", []);
 		});
 		
 		
@@ -1615,7 +1615,7 @@
 		jeep.webdb.open();
 		jeep.webdb.db.transaction(function(tx) {
 			tx.executeSql("DROP TABLE project", []);
-			tx.executeSql("CREATE TABLE IF NOT EXISTS project('id' INTEGER unique, 'admin_id' INTEGER, 'name' VARCHAR(255), 'big_logo' VARCHAR(255), 'small_logo' VARCHAR(255), 'project_logo' VARCHAR(255), 'background' VARCHAR(255), 'start_date' DATETIME, 'end_date' DATETIME, 'date_time_created' DATETIME)", []);
+			tx.executeSql("CREATE TABLE IF NOT EXISTS project('id' INTEGER PRIMARY KEY ASC, 'admin_id' INTEGER, 'name' VARCHAR(255), 'big_logo' VARCHAR(255), 'small_logo' VARCHAR(255), 'project_logo' VARCHAR(255), 'background' VARCHAR(255), 'start_date' DATETIME, 'end_date' DATETIME, 'date_time_created' DATETIME)", []);
 		});
 		
 		
@@ -1657,7 +1657,7 @@
 		jeep.webdb.open();
 		jeep.webdb.db.transaction(function(tx) {
 			tx.executeSql("DROP TABLE project_data_capture", []);
-			tx.executeSql("CREATE TABLE IF NOT EXISTS project_data_capture('id' INTEGER unique, 'proj_input_id' INTEGER, 'user_id' INTEGER, 'user_submission_num' INTEGER, 'project_id' INTEGER, 'value' VARCHAR(255), 'cur_lat' VARCHAR(255), 'cur_long' VARCHAR(255), 'date_time_created' DATETIME)", []);
+			tx.executeSql("CREATE TABLE IF NOT EXISTS project_data_capture('id' INTEGER PRIMARY KEY ASC, 'proj_input_id' INTEGER, 'user_id' INTEGER, 'user_submission_num' INTEGER, 'project_id' INTEGER, 'value' VARCHAR(255), 'cur_lat' VARCHAR(255), 'cur_long' VARCHAR(255), 'date_time_created' DATETIME)", []);
 		});
 		
 		
@@ -1699,7 +1699,7 @@
 		jeep.webdb.open();
 		jeep.webdb.db.transaction(function(tx) {
 			tx.executeSql("DROP TABLE proj_input", []);
-			tx.executeSql("CREATE TABLE IF NOT EXISTS proj_input('id' INTEGER unique, 'input_info_id' INTEGER, 'project_id' INTEGER)", []);
+			tx.executeSql("CREATE TABLE IF NOT EXISTS proj_input('id' INTEGER PRIMARY KEY ASC, 'input_info_id' INTEGER, 'project_id' INTEGER)", []);
 		});
 		
 		
@@ -1799,5 +1799,55 @@
          	});
 			
 		});
+		
+	  }
+	  
+	  function setServProject(){
+		
+		var admin_id = document.getElementById("admin_id").value;
+		
+		var name = document.getElementById("project_name").value;
+		var big_logo = document.getElementById("big_logo").files[0];
+		var small_logo = document.getElementById("small_logo").files[0];
+		var project_logo = document.getElementById("project_logo").files[0];
+		var background = document.getElementById("background").files[0];
+		var start_date = document.getElementById("start_date").value;
+		var end_date = document.getElementById("end_date").value;
+		
+		var formdata = new FormData();
+		
+		formdata.append("admin_id", admin_id);
+		
+		formdata.append("name", name);
+		formdata.append("big_logo", big_logo);
+		formdata.append("small_logo", small_logo);
+		formdata.append("project_logo", project_logo);
+		formdata.append("background", background);
+		formdata.append("start_date", start_date);
+		formdata.append("end_date", end_date);
+		
+		console.log(formdata);
+		
+		$.ajax({
+			async: false,
+			type: "POST",
+			data:formdata,
+			crossDomain: true,
+			cache: false,
+			url: url_extention+"set_project.php",
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
+			success: function(data, textStatus, jqXHR){
+				//console.log(data, textStatus, jqXHR);
+				alert("Uploaded to Server")
+			},
+			error:function(xhr){
+				alert("Error Uploading to Server \n An error " + xhr.status + " occured. \n Request Status: " + xhr.statusText);
+			}
+		});
+		
+		
 		
 	  }

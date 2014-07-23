@@ -13,7 +13,6 @@
 	|| ($_FILES["file"]["type"] == "image/png")
 	|| ($_FILES["file"]["type"] == "image/svg")
 	|| ($_FILES["file"]["type"] == "image/pjpeg"))
-	&& ($_FILES["file"]["size"] < 500000)
 	&& in_array($extension, $allowedExts))
 	  {
 	  if ($_FILES["file"]["error"] > 0)

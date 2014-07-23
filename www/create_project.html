@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <title>Create Project</title>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<link rel="stylesheet" href="js/jquery.mobile-1.4.2.min.css">
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery.mobile-1.4.2.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
@@ -23,7 +23,7 @@
 
 	<div class="infoBox" data-role="main" data-theme="b">
 		<h2 class="headingStyle">Create Project</h2>
-		<form type="post" onsubmit="addProject(); return false;">
+		<form type="post" onsubmit="return false;">
 		  <input type="text" id="project_name" name="project_name" placeholder="Project Name" />
 		</form>
 		  Big Logo:
@@ -50,7 +50,7 @@
 		  <br/>
 		  <input type="date" name="end_date" id="end_date" data-role="date" placeholder="yyyy/mmmm/dd">
 		  <br/>
-		  <input type="submit" value="Create Project" data-icon="check" data-iconpos="right" placeholder="yyyy/mmmm/dd"/>
+		  <input onClick="setServProject(); addProject();" type="submit" value="Create Project" data-icon="check" data-iconpos="right" placeholder="yyyy/mmmm/dd"/>
 		</form>
 	</div>
 	
