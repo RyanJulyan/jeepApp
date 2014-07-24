@@ -1851,3 +1851,125 @@
 		
 		
 	  }
+	  
+	   function setServDataType(){
+		
+		var data_type = document.getElementById("data_type").value;
+		
+		var formdata = new FormData();
+		
+		formdata.append("data_type", data_type);
+		
+		console.log(formdata);
+		
+		$.ajax({
+			async: false,
+			type: "POST",
+			data:formdata,
+			crossDomain: true,
+			cache: false,
+			url: url_extention+"set_data_type.php",
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
+			success: function(data, textStatus, jqXHR){
+				//console.log(data, textStatus, jqXHR);
+				alert("Uploaded to Server")
+			},
+			error:function(xhr){
+				alert("Error Uploading to Server \n An error " + xhr.status + " occured. \n Request Status: " + xhr.statusText);
+			}
+		});
+		
+		
+		
+	  }
+	  
+	  function setServNewInput(){
+		
+		var data_type_select = document.getElementById("data_type_select").value;
+		var input_label = document.getElementById("input_label").value;
+		var input_group_name = document.getElementById("input_group_name").value;
+		var rec_feild = document.getElementById("rec_feild").value;
+		
+		var formdata = new FormData();
+		
+		formdata.append("data_type_select", data_type_select);
+		formdata.append("input_label", input_label);
+		formdata.append("input_group_name", input_group_name);
+		formdata.append("rec_feild", rec_feild);
+		
+		console.log(formdata);
+		
+		$.ajax({
+			async: false,
+			type: "POST",
+			data:formdata,
+			crossDomain: true,
+			cache: false,
+			url: url_extention+"set_input_info.php",
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
+			success: function(data, textStatus, jqXHR){
+				//console.log(data, textStatus, jqXHR);
+				alert("Uploaded to Server")
+			},
+			error:function(xhr){
+				alert("Error Uploading to Server \n An error " + xhr.status + " occured. \n Request Status: " + xhr.statusText);
+			}
+		});
+		
+		
+		
+	  }
+	  
+	  function setServProjInput(){
+		
+		var project_select = document.getElementById("project_select").value;
+		
+		var select_inputs_checkboxes = document.getElementsByName('select_inputs');
+		
+		var select_inputs_checkboxes_arr = [];
+		
+		
+		for (var i=0;i<select_inputs_checkboxes.length;i++) {
+		  if (select_inputs_checkboxes[i].checked){
+			select_inputs_checkboxes_arr.push(select_inputs_checkboxes[i].value);
+		  }
+		}
+		
+		var json_arr = JSON.stringify(select_inputs_checkboxes_arr);
+		
+		var formdata = new FormData();
+		
+		formdata.append("project_select", project_select);
+		formdata.append("select_inputs_checkboxes_arr", select_inputs_checkboxes_arr);
+		
+		console.log(formdata);
+		
+		$.ajax({
+			async: false,
+			type: "POST",
+			data:formdata,
+			crossDomain: true,
+			cache: false,
+			url: url_extention+"set_proj_input.php",
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
+			success: function(data, textStatus, jqXHR){
+				console.log(data);
+				alert("Uploaded to Server")
+			},
+			error:function(xhr){
+				alert("Error Uploading to Server \n An error " + xhr.status + " occured. \n Request Status: " + xhr.statusText);
+			}
+		});
+		
+		
+		
+	  }

@@ -7,7 +7,7 @@ $insert_project_sql = "
 INSERT INTO `project` (`id`, `admin_id`, `name`, `big_logo`, `small_logo`, `project_logo`, `background`, `start_date`, `end_date`, `date_time_created`) 
 VALUES (NULL, 
 ".$_REQUEST['admin_id'].", 
-'".$_REQUEST['name']."', 
+'".$_REQUEST['name']."',
 'Jeep',
 'Jeep',
 'Jeep',
