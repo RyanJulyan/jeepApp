@@ -7,6 +7,8 @@
 	  var user_submission_num = 1;
 	  var cur_user_id = 0;
 	  var data_pri = 1;
+	  var AllUsers = [];
+	  var AllUsersDataCap = [];
 	  
 	  // For Server
 	  //var url_extention = "http://jeep.mi-project.info/include/";
@@ -216,6 +218,24 @@
          });
       }
 	  
+	  jeep.webdb.addUpdateUserOut = function(cur_user_name) {
+		  
+          var db = jeep.webdb.db;
+          db.transaction(function(tx){
+		  
+			var date_time_created = new Date();
+			
+			//var cur_user_name = GetUrlValue('username');
+		
+			tx.executeSql("UPDATE user SET date_time_out = ? WHERE name = ?",
+				[date_time_created, cur_user_name],
+				jeep.webdb.onSuccess,
+				jeep.webdb.onError
+			);
+			
+         });
+      }
+	  
 	  // Init Mock data
 	  jeep.webdb.initTables = function() {
 		
@@ -386,11 +406,27 @@
         });
       }
 	  
+	  jeep.webdb.getAllUsers = function(renderFunc) {
+        var db = jeep.webdb.db;
+        db.transaction(function(tx) {  
+          tx.executeSql("SELECT * FROM `user`", [], renderFunc,
+              jeep.webdb.onError);
+        });
+      }
+	  
+	  jeep.webdb.getAllUserDataCap = function(renderFunc) {
+        var db = jeep.webdb.db;
+        db.transaction(function(tx) {  
+          tx.executeSql("SELECT * FROM `project_data_capture` INNER JOIN `user` ON user.id = project_data_capture.user_id ", [], renderFunc,
+              jeep.webdb.onError);
+        });
+      }
+	  
 	  jeep.webdb.getAllCapData = function(renderFunc) {
         var db = jeep.webdb.db;
         db.transaction(function(tx) {
 		  var project_id = $('#projID').val();
-          tx.executeSql("SELECT * FROM `project_data_capture` INNER JOIN `proj_input` ON proj_input.id = project_data_capture.proj_input_id INNER JOIN `input_info` ON input_info.id = proj_input.input_info_id WHERE project_data_capture.project_id = ? ORDER BY `project_data_capture`.`user_submission_num` ASC", [project_id], renderFunc,
+			  tx.executeSql("SELECT DISTINCT `Tet`.`user_submission_num`, `Tet`.`user_id`, `input_name`, `value`, `cur_lat`, `cur_long`, `date_time_created` FROM (SELECT DISTINCT `project_data_capture`.`user_submission_num`, `project_data_capture`.`user_id` FROM `project_data_capture`) AS Tet CROSS JOIN `proj_input` INNER JOIN `input_info` ON `input_info`.`id` = `proj_input`.`input_info_id` LEFT JOIN `project_data_capture` ON `project_data_capture`.`proj_input_id` = `proj_input`.`id` AND `Tet`.`user_id` = `project_data_capture`.`user_id` WHERE `project_data_capture`.`project_id` = 1  OR `project_data_capture`.`project_id` IS NULL ORDER BY 1,2, value ASC", [], renderFunc,
               jeep.webdb.onError);
         });
       }
@@ -426,7 +462,7 @@
 		  
 		  var project_id = $('#projID').val();
 		  
-          tx.executeSql("SELECT proj_input.id AS id, label, required, input_name, data_type FROM `proj_input` INNER JOIN `input_info` ON proj_input.input_info_id = input_info.id INNER JOIN `data_type` ON input_info.data_type_id = data_type.id WHERE project_id=? ORDER BY input_name;", [project_id], renderFunc,
+          tx.executeSql("SELECT proj_input.id AS id, label, required, input_name, data_type FROM `proj_input` INNER JOIN `input_info` ON proj_input.input_info_id = input_info.id INNER JOIN `data_type` ON input_info.data_type_id = data_type.id WHERE project_id=? ORDER BY  proj_input.id;", [project_id], renderFunc,
               jeep.webdb.onError);
         });
       }
@@ -590,6 +626,8 @@
       }
 	  
 	  function loadAllCapData(tx, rs) {
+		//alert("Loading All Data Cap");
+		
 		var lastsub = 0;
 		var lastuserid = 0;
 		var lasttitle = [];
@@ -667,6 +705,14 @@
 	  
 	  function renderCurUserId(row) {
         return row.id;
+      }
+	  
+	  function renderAllUsers(row) {
+        return [row.id, row.name, row.date_time_in, row.cur_lat, row.cur_long, row.date_time_out];
+      }
+	  
+	  function renderAllUsersDataCap(row) {
+        return [row.id, row.proj_input_id, row.user_id, row.user_submission_num, row.project_id, row.value, row.cur_lat, row.cur_long, row.date_time_created, row.name];
       }
 	  
 	  function renderCurAdminId(row) {
@@ -1054,6 +1100,54 @@
 		}
       }
 	  
+	  function uploadData() {
+		try {
+			if (!window.openDatabase) {
+				alert('Databases are not supported in this browser.');
+			} else {
+				jeep.webdb.open();
+			}
+		} catch(e) {
+			// Error handling code goes here.
+			if (e == 0){
+				// UNKNOWN_ERR
+				alert("The transaction failed for reasons unrelated to the database.");
+			}
+			else if(e == 1){
+				// DATABASE_ERR
+				alert("The statement failed for database reasons.");
+			}
+			else if (e == 2) {
+				// Version number mismatch.
+				alert("Invalid database version.");
+			}
+			else if(e == 3){
+				// TOO_LARGE_ERR
+				alert("The statement failed because the data returned from the database was too large.");
+			}
+			else if(e == 4){
+				// QUOTA_ERR
+				alert("The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database.");
+			}
+			else if(e == 5){
+				// SYNTAX_ERR
+				alert("The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database.");
+			}
+			else if(e == 6){
+				// CONSTRAINT_ERR
+				alert("Statement failed due to a constraint failure.");
+			}
+			else if(e == 7){
+				// TIMEOUT_ERR
+				alert("A lock for the transaction could not be obtained in a reasonable time.");
+			}
+			else {
+				alert("Unknown error "+e+".");
+			}
+			return;
+		}
+      }
+	  
 	  function downloadData() {
 		try {
 			if (!window.openDatabase) {
@@ -1316,6 +1410,16 @@
 		jeep.webdb.addProjectDataCapture(proj_input_id, user_id, userSubnum, project_id, val, cur_lat, cur_long);
       }
 	  
+	  function getAllUsers(){
+		  jeep.webdb.open();
+		  jeep.webdb.getAllUsers(loadAllUsers);
+	  }
+	  
+	  function getAllUserDataCap(){
+		  jeep.webdb.open();
+		  jeep.webdb.getAllUserDataCap(loadAllUsersDataCap);
+	  }
+	  
 	  function updateUserSubMission(){
 		
 		var correct = true;
@@ -1342,6 +1446,9 @@
 				else if(elements[i].getAttribute("type") == "text"){
 					elements[i].value = '';
 				}
+				else{
+					elements[i].value = '';
+				}
 			}
 		}
 	  }
@@ -1364,6 +1471,24 @@
 	  function GetProjId(){
 				  return $('#projID').val();
 	  }
+	  
+	  function goToPageUser(){
+		jeep.webdb.open();
+		jeep.webdb.addUpdateUserOut(GetUrlValue('username'));
+		var url = "user.html";
+		$.mobile.changePage(url,{ transition: "slide", reverse:true});
+		$(document).on( 'pagebeforeshow',function(event){
+			//jeep.webdb.open();
+			//jeep.webdb.addUpdateUserOut();
+		});
+		$(document).on("pagecontainerload",function(event,data){
+		  //jeep.webdb.addUpdateUserOut();
+		});
+		$(document).on("pageshow",function(){
+		  jeep.webdb.open();
+		});
+	  }
+	  
 	  
 	  function goToPageLinkInputToProject(){
 		var url = "link_input_to_project.html";
@@ -1449,9 +1574,23 @@
 		var url = "user_select_project.html";
 		$.mobile.changePage(url,{ transition: "slide"});
 		$(document).on("pagecontainerload",function(event,data){
+			
 		});
 		$(document).on("pageshow",function(){
-		  downloadDataUser();
+			console.log("Go goUserChooseProj Fired");
+			downloadDataUser();
+		});
+	  }
+	  
+	  function goUserDataSync(projID){
+		var url = "user_sync.html";
+		$.mobile.changePage(url,{ transition: "flip"});
+		$(document).on("pagecontainerload",function(event,data){
+			uploadData();
+		});
+		$(document).on("pageshow",function(){
+			console.log("Go goUserDataSyncFired");
+			jeep.webdb.open();
 		});
 	  }
 	  
@@ -1474,6 +1613,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_admin.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1515,6 +1655,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_data_type.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1557,6 +1698,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_input_info.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1599,6 +1741,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_project.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1641,6 +1784,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_project_data_capture.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1683,6 +1827,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_proj_input.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1725,6 +1870,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_super_user.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1767,6 +1913,7 @@
 			dataType:"json",
 			type: "GET",
 			crossDomain: true,
+			cache: false,
 			url: url_extention+"get_user.php",
 			contentType: "application/json; charset=utf-8",
 			beforeSend : function() {$.mobile.loading('show')},
@@ -1847,8 +1994,6 @@
 				alert("Error Uploading to Server \n An error " + xhr.status + " occured. \n Request Status: " + xhr.statusText);
 			}
 		});
-		
-		
 		
 	  }
 	  
@@ -1973,3 +2118,95 @@
 		
 		
 	  }
+	  
+	  function loadAllUsers(tx, rs) {
+        var rowOutput = [];
+        for (var i=0; i < rs.rows.length; i++) {
+          rowOutput.push(renderAllUsers(rs.rows.item(i)));
+        }
+		
+		//AllUsers = JSON.stringify(rowOutput);
+		AllUsers = rowOutput;
+		//console.log(AllUsers);
+		
+		var formdata = new FormData();
+		
+		formdata.append("AllUsers", AllUsers);
+		
+		//console.log(formdata);
+		
+		$.ajax({
+			async: false,
+			type: "POST",
+			data:formdata,
+			crossDomain: true,
+			cache: false,
+			url: url_extention+"set_users.php",
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
+			success: function(data, textStatus, jqXHR){
+				console.log(data);
+				//alert("Users Uploaded to Server");
+				
+				$('#User_Sync').html('').append('Users Have Synced').trigger('create');
+			},
+			error:function(xhr){
+				alert("Error Uploading to Server \n An error " + xhr.status + " occured. \n Request Status: " + xhr.statusText);
+			}
+		});
+		
+      }
+	  
+	  function loadAllUsersDataCap(tx, rs) {
+        var rowOutput = [];
+        for (var i=0; i < rs.rows.length; i++) {
+          rowOutput.push(renderAllUsersDataCap(rs.rows.item(i)));
+		  console.log(rs.rows.item[0]);
+        }
+		
+		//AllUsersDataCap = JSON.stringify(rowOutput);
+		AllUsersDataCap = rowOutput;
+		//console.log(AllUsersDataCap);
+		
+		var formdata = new FormData();
+		
+		formdata.append("AllUsersDataCap", AllUsersDataCap);
+		
+		//console.log(formdata);
+		
+		$.ajax({
+			async: false,
+			type: "POST",
+			data:formdata,
+			crossDomain: true,
+			cache: false,
+			url: url_extention+"set_data_cap.php",
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			beforeSend : function() {$.mobile.loading('show')},
+    		complete   : function() {$.mobile.loading('hide')},
+			success: function(data, textStatus, jqXHR){
+				//console.log(data);
+				//alert("Captured Data Uploaded to Server")
+				$('#Data_Sync').html('').append('Captured Data Has Synced').trigger('create');
+				
+				jeep.webdb.open();
+				jeep.webdb.db.transaction(function(tx) {
+					tx.executeSql("DROP TABLE user", []);
+					tx.executeSql("CREATE TABLE IF NOT EXISTS user('id' INTEGER PRIMARY KEY ASC, 'name' VARCHAR(255), 'date_time_in' DATETIME, 'cur_lat' VARCHAR(255), 'cur_long' VARCHAR(255), 'date_time_out' DATETIME)", []);
+					tx.executeSql("DROP TABLE project_data_capture", []);
+					tx.executeSql("CREATE TABLE IF NOT EXISTS project_data_capture('id' INTEGER PRIMARY KEY ASC, 'proj_input_id' INTEGER, 'user_id' INTEGER, 'user_submission_num' INTEGER, 'project_id' INTEGER, 'value' VARCHAR(255), 'cur_lat' VARCHAR(255), 'cur_long' VARCHAR(255), 'date_time_created' DATETIME)", []);
+				});
+				
+				
+			},
+			error:function(xhr){
+				alert("Error Uploading to Server \n An error " + xhr.status + " occured. \n Request Status: " + xhr.statusText);
+			}
+		});
+		
+		
+		
+      }

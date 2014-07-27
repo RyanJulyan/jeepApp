@@ -9,10 +9,10 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body onload="downloadData();">
+<body onload="uploadData();">
 <div data-role="page" data-theme="b">
 	<div data-role="header" data-theme="b">
-		<a href="choose_action.html" data-icon="carat-l" class="ui-btn-left" data-transition="slidedown" data-direction="reverse">Back</a>
+		<a href="index.html" data-icon="carat-l" class="ui-btn-left" data-transition="flip" data-direction="reverse">Back</a>
 		<h1>
 			Jeep
 		</h1>
@@ -21,12 +21,20 @@
 	<input type="hidden" id='long' value="long"/>
 
 	<div class="infoBox" data-role="main" data-theme="b">
-		<h2 class="headingStyle">Select Project</h2>
-		<div data-filter="true" data-filter-placeholder="Search for Project" id="project_for_data">
-		</div>
+		<h2 class="headingStyle">Data Sync</h2>
+        <button onClick="getAllUsers(); getAllUserDataCap();">Upload Information</button>
+		<h3 id="User_Sync">Users Not Synced</h3>
+        <h3 id="Data_Sync">Data Not Synced</h3>
 	</div>
 
 	<script src="js/dbLinkedFile.js"></script>
+    <script>
+	$( document ).bind( "mobileinit", function() {
+		// Make your jQuery Mobile framework configuration changes here!
+		$.support.cors = true;
+		$.mobile.allowCrossDomainPages = true;
+	});
+	</script>
 </div>
 </body>
 </html>
